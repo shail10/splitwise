@@ -30,4 +30,5 @@ export const {
   removeTransactionState,
   setInitialTransactionState,
 } = transactionSlice.actions
+
 export default transactionSlice.reducer
