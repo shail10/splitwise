@@ -1,16 +1,22 @@
 import React, { useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-import { removeTransactionState } from '../features/transaction/transactionSlice'
 import { useSelector, useDispatch } from 'react-redux'
-import { removeUserState } from '../features/user/userSlice'
+
+import {
+  CURRENT_USER,
+  REMOVE_TRANSACTION_STATE,
+  REMOVE_USER_STATE,
+} from '../utils/constant'
 
 const Navbar = ({ history }) => {
   const dispatch = useDispatch()
   const logOut = (e) => {
-    dispatch(removeTransactionState())
-    dispatch(removeUserState())
-    localStorage.removeItem('current-user')
+    // dispatch(removeTransactionState())
+    dispatch({ type: REMOVE_TRANSACTION_STATE })
+    dispatch({ type: REMOVE_USER_STATE })
+    // dispatch(removeUserState())
+    localStorage.removeItem(CURRENT_USER)
     history.push('/')
   }
   return (

@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
+import { ALL_USERS } from '../utils/constant'
+
 const Register = ({ history }) => {
   const [name, setName] = useState('')
   const [password, setPassword] = useState('')
@@ -25,11 +27,12 @@ const Register = ({ history }) => {
       password: password,
     }
 
-    const allUser = JSON.parse(localStorage.getItem('total-users')) || []
+    const allUser = JSON.parse(localStorage.getItem(ALL_USERS)) || []
     allUser.push(currentUser)
 
-    localStorage.setItem('total-users', JSON.stringify(allUser))
+    localStorage.setItem(ALL_USERS, JSON.stringify(allUser))
     console.log('userAdded')
+    history.push('/login')
   }
 
   return (
@@ -97,7 +100,13 @@ const Register = ({ history }) => {
             placeholder='Enter password again'
           />
 
-          <button disabled={!validConfirmPassword ? true : false}>
+          <button
+            disabled={
+              !validConfirmPassword || !name || !username || !email
+                ? true
+                : false
+            }
+          >
             Sign Up
           </button>
           <p style={{ 'margin-top': '1.5rem', 'margin-left': '7.2rem' }}>

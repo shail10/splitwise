@@ -3,12 +3,13 @@ import { useEffect, useState, useContext } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
-import { CURRENT_USER } from '../utils/constant'
+import {
+  CURRENT_USER,
+  SET_INITIAL_USER_STATE,
+  SET_INITIAL_TRANSACTION_STATE,
+} from '../utils/constant'
 
 import { useDispatch, useSelector } from 'react-redux'
-
-import { setInitialUserState } from '../features/user/userSlice'
-import { setInitialTransactionState } from '../features/transaction/transactionSlice'
 
 const Login = ({ history }) => {
   const [email, setEmail] = useState('')
@@ -23,8 +24,10 @@ const Login = ({ history }) => {
       if (user.email === email && user.password === password) {
         console.log('UserLogedIn Successfully')
         localStorage.setItem(CURRENT_USER, JSON.stringify(user))
-        dispatch(setInitialUserState(user))
-        dispatch(setInitialTransactionState())
+        // dispatch(setInitialUserState(user))
+        dispatch({ type: SET_INITIAL_USER_STATE, payload: user })
+        dispatch({ type: SET_INITIAL_TRANSACTION_STATE })
+        // dispatch(setInitialTransactionState())
         history.push('/dashboard')
         break
       }

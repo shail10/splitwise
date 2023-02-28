@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import { Divider } from 'antd'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import { CURRENT_USER, ALL_USERS } from '../utils/constant'
 

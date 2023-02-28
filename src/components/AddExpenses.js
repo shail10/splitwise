@@ -1,12 +1,11 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { addExpenses } from '../features/transaction/transactionSlice'
 
 import { Button, Form, InputNumber, Select, Input } from 'antd'
 import styled from 'styled-components'
 
-import { ALL_USERS } from '../utils/constant'
+import { ALL_USERS, ADD_EXPENSES } from '../utils/constant'
 
 const { Option } = Select
 
@@ -26,7 +25,11 @@ const Profile = ({ history }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    dispatch(addExpenses({ description, amount, paidBy, paidFor }))
+    // dispatch(addExpenses({ description, amount, paidBy, paidFor }))
+    dispatch({
+      type: ADD_EXPENSES,
+      payload: { description, amount, paidBy, paidFor },
+    })
     const allTransactions =
       JSON.parse(localStorage.getItem('all-transaction')) || []
 
