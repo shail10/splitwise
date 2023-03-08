@@ -1,15 +1,15 @@
 import React from 'react'
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import SingleTransaction from './SingleTransaction'
+import { Button } from 'antd'
+
+import { useSelector } from 'react-redux'
+import SingleTransaction from './transactions/SingleTransaction'
 
 import ProtectedRoute from '../Auth/ProtectedRoute'
 
 const Dashboard = ({ history }) => {
   const transaction = useSelector((state) => state.transaction)
-  const transactionArray = transaction.transactions
+  const transactionArray = transaction.transactions || []
   return (
     <Temp>
       <div id='wrapper'>
@@ -18,7 +18,7 @@ const Dashboard = ({ history }) => {
         <table id='keywords' cellspacing='0' cellpadding='0'>
           <thead>
             <tr>
-              <th>
+              <th style={{ maxWidth: 1 }}>
                 <span>Description</span>
               </th>
               <th>
@@ -28,13 +28,35 @@ const Dashboard = ({ history }) => {
                 <span>Amount</span>
               </th>
               <th>
+                <span>Category</span>
+              </th>
+              <th>
                 <span>Paid For</span>
+              </th>
+              <th>
+                <span>Settle Up</span>
               </th>
             </tr>
           </thead>
           <tbody>
             {transactionArray.map((transact) => {
-              return <SingleTransaction key={transact.id} {...transact} />
+              return (
+                <tr id={transact.description} key={transact.id}>
+                  <SingleTransaction key={transact.id} {...transact} />
+                  <td>
+                    <Button
+                      type='button'
+                      onClick={(e) => {
+                        console.log(
+                          document.getElementById(transact.description).key
+                        )
+                      }}
+                    >
+                      Settle Up
+                    </Button>
+                  </td>
+                </tr>
+              )
             })}
           </tbody>
         </table>

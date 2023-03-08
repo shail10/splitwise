@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ant-design/icons": "^5.0.1",
     "@calumk/editorjs-codeflask": "^1.0.9",
     "@editorjs/checklist": "^1.4.0",
     "@editorjs/code": "^2.8.0",
@@ -27,6 +28,7 @@
     "react-router-dom": "^4.3.1",
     "react-scripts": "5.0.1",
     "react-toastify": "^9.1.1",
+    "recharts": "^2.4.3",
     "styled-components": "^5.3.6",
     "web-vitals": "^2.1.4"
   },

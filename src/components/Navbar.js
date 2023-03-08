@@ -42,6 +42,9 @@ const Navbar = ({ history }) => {
           ) : (
             <>
               <div>
+                <Link to='/analytics'>
+                  <button className='new-note'>Analytics</button>
+                </Link>
                 <Link to='/your-expenses'>
                   <button className='new-note'>Expenses</button>
                 </Link>

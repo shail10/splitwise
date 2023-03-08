@@ -5,7 +5,6 @@ export const Authenticate = () => {
   }
   const logedInUser = JSON.parse(localStorage.getItem(CURRENT_USER))
   if (logedInUser) {
-    // console.log('here')
     auth.isAuthenticated = true
   }
   return auth

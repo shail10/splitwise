@@ -1,36 +1,45 @@
 import React from 'react'
-import { useEffect, useState, useContext } from 'react'
+import { useState } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
-import {
-  CURRENT_USER,
-  SET_INITIAL_USER_STATE,
-  SET_INITIAL_TRANSACTION_STATE,
-} from '../utils/constant'
+import { SET_INITIAL_TRANSACTION_STATE, ONLOGIN } from '../../utils/constant'
 
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 
 const Login = ({ history }) => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
   const dispatch = useDispatch()
+
+  const [user, setUser] = useState({ email: '', password: '' })
+
+  const handleOnChange = (e) => {
+    if (e.target.id === 'email') {
+      setUser({ ...user, email: e.target.value })
+    }
+    if (e.target.id === 'password') {
+      setUser({ ...user, password: e.target.value })
+    }
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
-    const totalUsers = JSON.parse(localStorage.getItem('total-users'))
-    for (let user of totalUsers) {
-      if (user.email === email && user.password === password) {
-        console.log('UserLogedIn Successfully')
-        localStorage.setItem(CURRENT_USER, JSON.stringify(user))
-        // dispatch(setInitialUserState(user))
-        dispatch({ type: SET_INITIAL_USER_STATE, payload: user })
-        dispatch({ type: SET_INITIAL_TRANSACTION_STATE })
-        // dispatch(setInitialTransactionState())
-        history.push('/dashboard')
-        break
-      }
+    try {
+      dispatch({ type: ONLOGIN, payload: user })
+      dispatch({ type: SET_INITIAL_TRANSACTION_STATE })
+      history.push('/dashboard')
+    } catch (error) {
+      toast.error(`${error}`, {
+        position: 'top-center',
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: 'light',
+      })
     }
   }
 
@@ -41,13 +50,14 @@ const Login = ({ history }) => {
         <form onSubmit={handleSubmit}>
           {/* For Email */}
           <input
+            label='email'
             type='email'
             id='email'
             autoComplete='off'
             onChange={(e) => {
-              setEmail(e.target.value)
+              handleOnChange(e)
             }}
-            value={email}
+            value={user.email}
             required
             placeholder='Email'
           />
@@ -57,14 +67,28 @@ const Login = ({ history }) => {
             id='password'
             autoComplete='off'
             onChange={(e) => {
-              setPassword(e.target.value)
+              handleOnChange(e)
             }}
-            value={password}
+            value={user.password}
             required
             placeholder='Enter your password'
           />
 
-          <button disabled={!email || !password ? true : false}>Login</button>
+          <button disabled={!user.email || !user.password ? true : false}>
+            Login
+          </button>
+          <ToastContainer
+            position='top-center'
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme='light'
+          />
           <p style={{ 'margin-top': '1.5rem', 'margin-left': '10rem' }}>
             New here? <Link to='/register'>Register</Link> here.
           </p>
@@ -82,6 +106,7 @@ const Wrapper = styled.div`
   padding: 20px 50px 40px;
   box-shadow: 1px 4px 10px 1px #aaa;
   font-family: sans-serif;
+  border-radius: 1rem;
 
   * {
     box-sizing: border-box;
@@ -101,8 +126,9 @@ const Wrapper = styled.div`
     height: 32px;
     padding: 6px 16px;
     width: 100%;
-    border: none;
-    background-color: #f3f3f3;
+    border: solid #e0e0e0;
+    background-color: white;
+    border-radius: 0.5rem;
   }
   label {
     color: #777;

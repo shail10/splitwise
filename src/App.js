@@ -9,6 +9,8 @@ import {
   AddExpenses,
   Profile,
   YourExpenses,
+  practice,
+  ChartContainer,
 } from './components'
 
 import './App.css'
@@ -25,6 +27,8 @@ function App() {
         <Route exact path='/add-expenses' component={AddExpenses} />
         <Route exact path='/profile' component={Profile} />
         <Route exact path='/your-expenses' component={YourExpenses} />
+        <Route exact path='/practice' component={practice} />
+        <Route exact path='/analytics' component={ChartContainer} />
       </Switch>
     </>
     // </Router>

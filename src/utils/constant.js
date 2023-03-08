@@ -8,3 +8,11 @@ export const SET_INITIAL_TRANSACTION_STATE = 'setInitialTransactionState'
 export const SET_INITIAL_USER_STATE = 'setInitialUserState'
 
 export const REMOVE_USER_STATE = 'removeUserState'
+export const ONREGISTER = 'on-register'
+export const ONLOGIN = 'on-login'
+
+export const BAR = 'barChart'
+export const AREA = 'areaChart'
+
+export const PERSONAL_DATA = 'personalData'
+export const GROUP_DATA = 'groupData'

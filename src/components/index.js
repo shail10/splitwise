@@ -1,13 +1,14 @@
 import Navbar from './Navbar'
-import Login from './Login'
+import Login from './auth/Login'
 import Home from './Home'
 import Dashboard from './Dashboard'
-import Register from './Register'
-import AddExpenses from './AddExpenses'
-import Profile from './Profile'
-import Logout from './Logout'
-import SingleTransaction from './SingleTransaction'
-import YourExpenses from './YourExpenses'
+import Register from './auth/Register'
+import AddExpenses from './transactions/AddExpenses'
+import Profile from './auth/Profile'
+import practice from './auth/practice'
+import SingleTransaction from './transactions/SingleTransaction'
+import YourExpenses from './transactions/YourExpenses'
+import ChartContainer from './charts/ChartContainer'
 
 export {
   Navbar,
@@ -17,6 +18,7 @@ export {
   Dashboard,
   AddExpenses,
   Profile,
-  Logout,
   YourExpenses,
+  practice,
+  ChartContainer,
 }
