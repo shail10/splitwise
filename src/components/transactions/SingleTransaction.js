@@ -26,9 +26,16 @@ const SingleTransaction = (props) => {
         {props.students.map((student) => {
           return (
             <div key={student.id}>
-              <div>
+              {/* <div>
                 {student.paidFor} - {student.percentage}%
-              </div>
+              </div> */}
+              {student.percentage > 0 && (
+                <>
+                  <div>
+                    {student.paidFor} - {student.percentage}%
+                  </div>
+                </>
+              )}
             </div>
           )
         })}

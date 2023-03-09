@@ -15,6 +15,13 @@ const ChartContainer = () => {
   const [form] = Form.useForm()
   const currentUser = useSelector((state) => state.user.user)
 
+  const handleChart = (e) => {
+    setChart(e)
+  }
+  const handleData = (e) => {
+    setData(e)
+  }
+
   return (
     <Wrapper>
       <h2>Your expenses</h2>
@@ -22,7 +29,7 @@ const ChartContainer = () => {
         <Form.Item name='user' label='User'>
           <Select
             onSelect={(e) => {
-              setData(e)
+              handleData(e)
             }}
             placeholder='Select a user'
           >
@@ -35,7 +42,7 @@ const ChartContainer = () => {
         <Form.Item name='chart' label='Chart'>
           <Select
             onSelect={(e) => {
-              setChart(e)
+              handleChart(e)
             }}
             placeholder='Select a chart'
           >

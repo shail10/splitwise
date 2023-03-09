@@ -10,14 +10,15 @@ import { CURRENT_USER, ALL_USERS } from '../../utils/constant'
 const YourExpenses = () => {
   const userExpenses = CalculateExpenses()
   const currentUser = useSelector((state) => state.user.user)
-
+  let totalOwed = 0
+  for (const keys in userExpenses) {
+    totalOwed += userExpenses[keys]
+  }
   const result = []
 
   {
     Object.keys(userExpenses).forEach((key) => {
-      console.log(key)
       if (userExpenses[key] < 0 && key != currentUser.username) {
-        console.log(currentUser.username)
         result.push(
           <p>
             {currentUser.username} owes {key}{' '}
@@ -36,6 +37,22 @@ const YourExpenses = () => {
       }
     })
   }
+  result.push(
+    <>
+      <span class='totalExpense'>
+        Your total expenses is
+        <i>
+          <b> {userExpenses[currentUser.username]}</b>
+        </i>
+      </span>
+      <span class='totalOwed'>
+        You are owed
+        <i>
+          <b> {totalOwed - userExpenses[currentUser.username]}</b>
+        </i>
+      </span>
+    </>
+  )
 
   return <Wrapper>{result}</Wrapper>
 }
@@ -51,6 +68,16 @@ const Wrapper = styled.div`
   p {
     margin: 2rem;
     font-size: 1.5rem;
+  }
+  .totalExpense {
+    margin: 0.5em 2em 3em 4em;
+  }
+  .totalOwed {
+    margin: 0.5em 2em 3em 6em;
+  }
+  span {
+    padding: 0.5em;
+    border: dotted;
   }
 `
 

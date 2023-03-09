@@ -1,19 +1,53 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Button } from 'antd'
+import { Button, Select, Form } from 'antd'
 
 import { useSelector } from 'react-redux'
 import SingleTransaction from './transactions/SingleTransaction'
 
 import ProtectedRoute from '../Auth/ProtectedRoute'
 
+import { PERSONAL_DATA, GROUP_DATA } from '../utils/constant'
+
 const Dashboard = ({ history }) => {
   const transaction = useSelector((state) => state.transaction)
+  const currentUser = useSelector((state) => state.user.user)
+
   const transactionArray = transaction.transactions || []
+  const [form] = Form.useForm()
+  const personlisedTransaction = transactionArray.filter(
+    (transact) =>
+      transact.paidBy === currentUser.username ||
+      transact.students.find(
+        (transactPaidFor) =>
+          transactPaidFor.paidFor === currentUser.username &&
+          transactPaidFor.percentage > 0
+      )
+  )
+  const [currentData, setCurrentData] = useState(transactionArray)
+
+  const handleChangeData = (e) => {
+    if (e === GROUP_DATA) setCurrentData(transactionArray)
+    if (e === PERSONAL_DATA) setCurrentData(personlisedTransaction)
+  }
+
   return (
-    <Temp>
+    <Wrapper>
       <div id='wrapper'>
-        <h1>Transactions</h1>
+        <Form form={form} labelCol={{ span: '11' }} wrapperCol={{ span: 3 }}>
+          <Form.Item name='data' label='Data'>
+            <Select
+              onSelect={(e) => {
+                handleChangeData(e)
+              }}
+              placeholder='Select the data'
+            >
+              <Select.Option value={GROUP_DATA}>Group</Select.Option>
+              <Select.Option value={PERSONAL_DATA}>Individual</Select.Option>
+            </Select>
+          </Form.Item>
+        </Form>
+        <h4>Transactions</h4>
 
         <table id='keywords' cellspacing='0' cellpadding='0'>
           <thead>
@@ -39,7 +73,7 @@ const Dashboard = ({ history }) => {
             </tr>
           </thead>
           <tbody>
-            {transactionArray.map((transact) => {
+            {currentData.map((transact) => {
               return (
                 <tr id={transact.description} key={transact.id}>
                   <SingleTransaction key={transact.id} {...transact} />
@@ -47,12 +81,10 @@ const Dashboard = ({ history }) => {
                     <Button
                       type='button'
                       onClick={(e) => {
-                        console.log(
-                          document.getElementById(transact.description).key
-                        )
+                        console.log(e.target.offsetParent)
                       }}
                     >
-                      Settle Up
+                      Settle
                     </Button>
                   </td>
                 </tr>
@@ -61,11 +93,11 @@ const Dashboard = ({ history }) => {
           </tbody>
         </table>
       </div>
-    </Temp>
+    </Wrapper>
   )
 }
 
-const Temp = styled.body`
+const Wrapper = styled.body`
   @import url('https://fonts.googleapis.com/css?family=Amarante');
 
   html,
@@ -166,6 +198,19 @@ const Temp = styled.body`
   html {
     overflow-y: scroll;
   }
+
+  button {
+    margin: 20px auto;
+    width: 80px;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+    /* color: #eee; */
+    background: var(--buttonColor);
+    color: white;
+    font-size: 15px;
+    box-shadow: 1px 4px 10px 1px #aaa;
+  }
   body {
     background: #eee url('https://i.imgur.com/eeQeRmk.png'); /* https://subtlepatterns.com/weave/ */
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -192,6 +237,10 @@ const Temp = styled.body`
   br {
     display: block;
     line-height: 1.6em;
+  }
+
+  .data {
+    margin-left: 38rem;
   }
 
   article,
@@ -248,12 +297,12 @@ const Temp = styled.body`
     max-width: 100%;
   }
 
-  h1 {
+  h4 {
     font-family: 'Amarante', Tahoma, sans-serif;
     font-weight: bold;
-    font-size: 3.6em;
+    font-size: 3em;
     line-height: 1.7em;
-    margin-bottom: 10px;
+    margin-bottom: 1rem;
     text-align: center;
   }
 

@@ -9,7 +9,9 @@ export const CalculateExpenses = () => {
     (transact) =>
       transact.paidBy === currentUser.username ||
       transact.students.find(
-        (transactPaidFor) => transactPaidFor.paidFor === currentUser.username
+        (transactPaidFor) =>
+          transactPaidFor.paidFor === currentUser.username &&
+          transactPaidFor.percentage > 0
       )
   )
   const userExpenses = {}
@@ -30,6 +32,8 @@ export const CalculateExpenses = () => {
       transact.students.map((transactPaidFor) => {
         if (transactPaidFor.paidFor === currentUser.username) {
           userExpenses[transact.paidBy] -=
+            transact.amount * (transactPaidFor.percentage / 100)
+          userExpenses[transactPaidFor.paidFor] +=
             transact.amount * (transactPaidFor.percentage / 100)
         }
       })
