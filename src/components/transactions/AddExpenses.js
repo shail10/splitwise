@@ -5,7 +5,7 @@ import { ALL_USERS, ADD_EXPENSES } from '../../utils/constant'
 import { CATEGORIES } from '../../utils/formConstants'
 import initaiState from '../../helper/PopulateInitialState'
 
-import { Button, Form, InputNumber, Select, Input } from 'antd'
+import { Button, Form, InputNumber, Select, Input, DatePicker } from 'antd'
 import styled from 'styled-components'
 
 function AddExpenses({ history }) {
@@ -45,6 +45,11 @@ function AddExpenses({ history }) {
       categories: formValues.categories,
       amount: formValues.amount,
       students: studentsInvolved,
+      date: {
+        year: formValues.date.$y,
+        month: formValues.date.$M,
+        day: formValues.date.$D,
+      },
     }
     try {
       dispatch({
@@ -57,6 +62,7 @@ function AddExpenses({ history }) {
       alert(error)
     }
     console.log(values)
+    // console.log(formValues.date.$y)
   }
 
   return (
@@ -67,11 +73,40 @@ function AddExpenses({ history }) {
         wrapperCol={{ span: 13 }}
         onFinish={handleSubmit}
       >
-        <Form.Item name='description' label='Description'>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Please enter the description!',
+            },
+          ]}
+          name='description'
+          label='Description'
+        >
           <Input placeholder='Enter Your Description.'></Input>
         </Form.Item>
 
-        <Form.Item name='paidBy' label='Paid By'>
+        <Form.Item label='Pick the date' name='date'>
+          <DatePicker
+            rules={[
+              {
+                required: true,
+                message: 'Please enter the description!',
+              },
+            ]}
+          ></DatePicker>
+        </Form.Item>
+
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Please select who paid!',
+            },
+          ]}
+          name='paidBy'
+          label='Paid By'
+        >
           <Select placeholder='Select who paid'>
             {allUsers.map((user) => {
               return (
@@ -117,6 +152,13 @@ function AddExpenses({ history }) {
         {paidFor.map((student) => {
           return (
             <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Please Enter a value',
+                  type: 'number',
+                },
+              ]}
               key={student.key}
               name={student}
               id={student}
@@ -130,7 +172,16 @@ function AddExpenses({ history }) {
           )
         })}
 
-        <Form.Item name='categories' label='Categories'>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Please select one category!',
+            },
+          ]}
+          name='categories'
+          label='Categories'
+        >
           <Select placeholder='Select your category'>
             {CATEGORIES.map((category) => {
               return (
@@ -141,7 +192,17 @@ function AddExpenses({ history }) {
             })}
           </Select>
         </Form.Item>
-        <Form.Item name='amount' label='Amount'>
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Please enter the amount!',
+              type: 'number',
+            },
+          ]}
+          name='amount'
+          label='Amount'
+        >
           <InputNumber placeholder='Enter Your anount.'></InputNumber>
         </Form.Item>
 
@@ -160,7 +221,7 @@ const Wrapper = styled.div`
   padding: 5rem;
   max-width: 50rem;
   border-radius: 2rem;
-  margin-left: 25rem;
+  margin-left: 21rem;
 `
 
 export default AddExpenses

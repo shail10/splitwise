@@ -68,6 +68,9 @@ const Dashboard = ({ history }) => {
                 <span>Paid For</span>
               </th>
               <th>
+                <span>Date</span>
+              </th>
+              <th>
                 <span>Settle Up</span>
               </th>
             </tr>
@@ -309,7 +312,7 @@ const Wrapper = styled.body`
   /** page structure **/
   #wrapper {
     display: block;
-    width: 80%;
+    width: 97%;
     background: #fff;
     margin: 0 auto;
     padding: 10px 17px;
@@ -320,7 +323,7 @@ const Wrapper = styled.body`
     margin: 0 auto;
     font-size: 1.2em;
     margin-bottom: 15px;
-    width: 90%;
+    width: 98%;
   }
 
   #keywords thead {

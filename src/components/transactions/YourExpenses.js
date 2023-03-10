@@ -21,7 +21,7 @@ const YourExpenses = () => {
       if (userExpenses[key] < 0 && key != currentUser.username) {
         result.push(
           <p>
-            {currentUser.username} owes {key}{' '}
+            <b>{currentUser.username}</b> owes <b>{key} </b>
             {Math.round(Math.abs(userExpenses[key]))}
             <Divider dashed />
           </p>
@@ -30,7 +30,8 @@ const YourExpenses = () => {
       if (userExpenses[key] > 0 && key != currentUser.username) {
         result.push(
           <p>
-            {key} owes {currentUser.username} {Math.round(userExpenses[key])}
+            <b>{key}</b> owes <b>{currentUser.username} </b>
+            {Math.round(userExpenses[key])}
             <Divider dashed />
           </p>
         )
@@ -42,13 +43,13 @@ const YourExpenses = () => {
       <span class='totalExpense'>
         Your total expenses is
         <i>
-          <b> {userExpenses[currentUser.username]}</b>
+          <b> {Math.round(userExpenses[currentUser.username])}</b>
         </i>
       </span>
       <span class='totalOwed'>
         You are owed
         <i>
-          <b> {totalOwed - userExpenses[currentUser.username]}</b>
+          <b> {Math.round(totalOwed - userExpenses[currentUser.username])}</b>
         </i>
       </span>
     </>
@@ -67,7 +68,7 @@ const Wrapper = styled.div`
 
   p {
     margin: 2rem;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
   }
   .totalExpense {
     margin: 0.5em 2em 3em 4em;
@@ -78,6 +79,9 @@ const Wrapper = styled.div`
   span {
     padding: 0.5em;
     border: dotted;
+  }
+  b {
+    color: #5bc4a5;
   }
 `
 

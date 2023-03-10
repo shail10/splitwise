@@ -118,7 +118,7 @@ const Wrapper = styled.div`
   padding: 5rem;
   max-width: 50rem;
   border-radius: 2rem;
-  margin-left: 25rem;
+  margin-left: 21rem;
 `
 
 export default Profile

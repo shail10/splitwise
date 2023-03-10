@@ -1,13 +1,14 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-
 import { useSelector } from 'react-redux'
+import { Form, Select } from 'antd'
 
 import { AREA, BAR, PERSONAL_DATA, GROUP_DATA } from '../../utils/constant'
 
 import { GetChart } from '../../helper/GetChart'
 
-import { Form, Select } from 'antd'
+import AreaChartContainer from './AreaChart'
+import BarChartComponent from './BarChart'
 
 const ChartContainer = () => {
   const [chart, setChart] = useState('')
