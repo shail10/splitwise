@@ -12,15 +12,15 @@ import GroupData from './data/GroupData'
 import PersonalData from './data/PersonalData'
 
 const ChartContainer = () => {
-  const [data, setData] = useState(GroupData())
+  const gd = GroupData()
+  const pd = PersonalData()
+  const [data, setData] = useState(gd)
   const [form] = Form.useForm()
   const currentUser = useSelector((state) => state.user.user)
 
-  console.log(data)
-
   const handleData = (e) => {
-    if (e === PERSONAL_DATA) setData(PersonalData())
-    if (e === GROUP_DATA) setData(GroupData())
+    if (e === PERSONAL_DATA) setData(pd)
+    if (e === GROUP_DATA) setData(gd)
   }
 
   return (
@@ -41,6 +41,9 @@ const ChartContainer = () => {
           </Select>
         </Form.Item>
       </Form>
+      <AreaChartContainer label='Something' data={data} />
+
+      <BarChartComponent data={data} />
     </Wrapper>
   )
 }
