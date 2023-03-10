@@ -5,22 +5,22 @@ import { Form, Select } from 'antd'
 
 import { AREA, BAR, PERSONAL_DATA, GROUP_DATA } from '../../utils/constant'
 
-import { GetChart } from '../../helper/GetChart'
-
 import AreaChartContainer from './AreaChart'
 import BarChartComponent from './BarChart'
 
+import GroupData from './data/GroupData'
+import PersonalData from './data/PersonalData'
+
 const ChartContainer = () => {
-  const [chart, setChart] = useState('')
-  const [data, setData] = useState('')
+  const [data, setData] = useState(GroupData())
   const [form] = Form.useForm()
   const currentUser = useSelector((state) => state.user.user)
 
-  const handleChart = (e) => {
-    setChart(e)
-  }
+  console.log(data)
+
   const handleData = (e) => {
-    setData(e)
+    if (e === PERSONAL_DATA) setData(PersonalData())
+    if (e === GROUP_DATA) setData(GroupData())
   }
 
   return (
@@ -40,19 +40,7 @@ const ChartContainer = () => {
             </Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item name='chart' label='Chart'>
-          <Select
-            onSelect={(e) => {
-              handleChart(e)
-            }}
-            placeholder='Select a chart'
-          >
-            <Select.Option value={BAR}>Bar Chart</Select.Option>
-            <Select.Option value={AREA}>Area Chart</Select.Option>
-          </Select>
-        </Form.Item>
       </Form>
-      <GetChart chartType={chart} dataType={data} />
     </Wrapper>
   )
 }

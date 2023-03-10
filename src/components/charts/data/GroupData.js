@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { CATEGORIES } from '../../../utils/formConstants'
 
-export const GroupData = () => {
+const GroupData = () => {
   const allTransaction = useSelector((state) => state.transaction.transactions)
 
   const groupData = []
@@ -21,3 +21,4 @@ export const GroupData = () => {
 
   return groupData
 }
+export default GroupData

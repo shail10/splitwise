@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux'
 import { CATEGORIES } from '../../../utils/formConstants'
 
-export const PersonalData = () => {
+const PersonalData = () => {
   const allTransaction = useSelector((state) => state.transaction.transactions)
   const currentUser = useSelector((state) => state.user.user)
 
@@ -36,3 +36,5 @@ export const PersonalData = () => {
 
   return groupData
 }
+
+export default PersonalData
