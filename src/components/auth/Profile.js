@@ -1,93 +1,70 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { InboxOutlined, UploadOutlined } from '@ant-design/icons'
-import {
-  Button,
-  Checkbox,
-  Col,
-  Form,
-  InputNumber,
-  Radio,
-  Rate,
-  Row,
-  Select,
-  Slider,
-  Switch,
-  Upload,
-  Input,
-} from 'antd'
-import styled from 'styled-components'
+import { Button, Form, Input } from 'antd';
+import styled from 'styled-components';
 
-const { Option } = Select
+import { useSelector } from 'react-redux';
+import { UPDATE_USER, ONLOGIN } from '../../utils/constant';
 
-const formItemLayout = {
-  labelCol: { span: 6 },
-  wrapperCol: { span: 14 },
-}
+function AddExpenses({ history }) {
+  const [form] = Form.useForm();
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [validPassword, setValidPassword] = useState(false);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.user.user);
 
-const Profile = () => {
-  const currentUser = useSelector((state) => state.user.user)
-  // console.log(currentUser)
-  const [email, setEmail] = useState(currentUser.email)
-  const [name, setName] = useState(currentUser.name)
-  const [username, setUsername] = useState(currentUser.username)
+  useEffect(() => {
+    setValidPassword(password === confirmPassword);
+  }, [password, confirmPassword]);
 
-  const dispatch = useDispatch()
-
-  const handleSubmit = async (e) => {
-    e.preventDefault()
-    console.log('Form Submitted')
-    // console.log(currentUser)
-    console.log(email)
-    console.log(username)
-    console.log(name)
-  }
+  const handleSubmit = async (formValues) => {
+    let values = {
+      name: formValues.name,
+      email: formValues.email,
+      password: formValues.password,
+      username: currentUser.username,
+      oldPassword: formValues.oldPassword,
+    };
+    // console.log(values)
+    try {
+      dispatch({ type: UPDATE_USER, payload: values });
+      history.push('/');
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   return (
     <Wrapper>
       <Form
-        name='validate_other'
-        {...formItemLayout}
+        form={form}
+        labelCol={{ span: 4 }}
+        wrapperCol={{ span: 13 }}
+        onFinish={handleSubmit}
         initialValues={{
-          Username: username,
-          Name: name,
-          Email: email,
+          name: currentUser.name,
+          email: currentUser.email,
         }}
-        style={{ maxWidth: 600 }}
       >
         <Form.Item
-          type='text'
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value)
-          }}
-          label='Username'
-          name='Username'
-          rules={[{ required: true, message: 'Please enter your username!' }]}
+          rules={[
+            {
+              required: true,
+              message: 'Please enter your name!',
+              type: 'text',
+            },
+          ]}
+          name="name"
+          label="Name"
         >
-          <Input />
+          <Input placeholder="Enter your name."></Input>
         </Form.Item>
+
         <Form.Item
-          type='text'
-          value={name}
-          onChange={(e) => {
-            setName(e.target.value)
-          }}
-          label='Name'
-          name='Name'
-          rules={[{ required: true, message: 'Please enter your name!' }]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value)
-          }}
-          label='Email'
-          name='Email'
+          name="email"
+          label="Email"
           rules={[
             {
               required: true,
@@ -96,21 +73,56 @@ const Profile = () => {
             },
           ]}
         >
-          <Input />
+          <Input disabled={true} placeholder="Enter your name."></Input>
         </Form.Item>
-        <Form.Item wrapperCol={{ span: 12, offset: 6 }}>
-          <Button
-            onClick={handleSubmit}
-            className={{ color: '#5bc4a6' }}
-            type='primary'
-            htmlType='submit'
-          >
+
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Please enter your old password!',
+            },
+          ]}
+          name="oldPassword"
+          label="Old Password"
+        >
+          <Input.Password placeholder="Enter your old password."></Input.Password>
+        </Form.Item>
+
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Please enter your new password!',
+            },
+          ]}
+          name="password"
+          label="Password"
+        >
+          <Input.Password onChange={(e) => setPassword(e.target.value)} placeholder="Enter your new password."></Input.Password>
+        </Form.Item>
+
+        <Form.Item
+          rules={[
+            {
+              required: true,
+              message: 'Please confirm your password!',
+            },
+          ]}
+          name="confirmPassword"
+          label="Confirm Password"
+        >
+          <Input.Password onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Enter your name."></Input.Password>
+        </Form.Item>
+
+        <Form.Item style={{ marginLeft: '300px' }}>
+          <Button disabled={validPassword == false} type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
       </Form>
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.div`
@@ -119,6 +131,6 @@ const Wrapper = styled.div`
   max-width: 50rem;
   border-radius: 2rem;
   margin-left: 21rem;
-`
+`;
 
-export default Profile
+export default AddExpenses;

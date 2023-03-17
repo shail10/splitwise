@@ -1,62 +1,62 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Divider } from 'antd'
-import { useSelector } from 'react-redux'
+import React from 'react';
+import styled from 'styled-components';
+import { Divider } from 'antd';
+import { useSelector } from 'react-redux';
 
-import { CalculateExpenses } from '../../helper/CalculateExpenses'
+import { CalculateExpenses } from '../../helper/CalculateExpenses';
 
-import { CURRENT_USER, ALL_USERS } from '../../utils/constant'
+import { CURRENT_USER, ALL_USERS } from '../../utils/constant';
 
 const YourExpenses = () => {
-  const userExpenses = CalculateExpenses()
-  const currentUser = useSelector((state) => state.user.user)
-  let totalOwed = 0
+  const userExpenses = CalculateExpenses();
+  const currentUser = useSelector((state) => state.user.user);
+  let totalOwed = 0;
   for (const keys in userExpenses) {
-    totalOwed += userExpenses[keys]
+    totalOwed += userExpenses[keys];
   }
-  const result = []
+  const result = [];
 
   {
     Object.keys(userExpenses).forEach((key) => {
-      if (userExpenses[key] < 0 && key != currentUser.username) {
+      if (userExpenses[key] < 0 && key !== currentUser.username) {
         result.push(
           <p>
             <b>{currentUser.username}</b> owes <b>{key} </b>
             {Math.round(Math.abs(userExpenses[key]))}
             <Divider dashed />
-          </p>
-        )
+          </p>,
+        );
       }
-      if (userExpenses[key] > 0 && key != currentUser.username) {
+      if (userExpenses[key] > 0 && key !== currentUser.username) {
         result.push(
           <p>
             <b>{key}</b> owes <b>{currentUser.username} </b>
             {Math.round(userExpenses[key])}
             <Divider dashed />
-          </p>
-        )
+          </p>,
+        );
       }
-    })
+    });
   }
   result.push(
     <>
-      <span class='totalExpense'>
+      <span class="totalExpense">
         Your total expenses is
         <i>
           <b> {Math.round(userExpenses[currentUser.username])}</b>
         </i>
       </span>
-      <span class='totalOwed'>
+      <span class="totalOwed">
         You are owed
         <i>
-          <b> {Math.round(totalOwed - userExpenses[currentUser.username])}</b>
+          <b> {Math.round(Math.abs(totalOwed - userExpenses[currentUser.username]))}</b>
         </i>
       </span>
-    </>
-  )
+    </>,
+  );
 
-  return <Wrapper>{result}</Wrapper>
-}
+  return <Wrapper>{result}</Wrapper>;
+};
 
 const Wrapper = styled.div`
   background: white;
@@ -83,6 +83,6 @@ const Wrapper = styled.div`
   b {
     color: #5bc4a5;
   }
-`
+`;
 
-export default YourExpenses
+export default YourExpenses;

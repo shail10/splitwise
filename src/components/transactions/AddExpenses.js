@@ -1,78 +1,78 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
-import { ALL_USERS, ADD_EXPENSES } from '../../utils/constant'
-import { CATEGORIES } from '../../utils/formConstants'
-import initaiState from '../../helper/PopulateInitialState'
+import { ALL_USERS, ADD_EXPENSES } from '../../utils/constant';
+import { CATEGORIES } from '../../utils/formConstants';
+import initaiState from '../../helper/PopulateInitialState';
 
-import { Button, Form, InputNumber, Select, Input, DatePicker } from 'antd'
-import styled from 'styled-components'
+import { Button, Form, InputNumber, Select, Input, DatePicker } from 'antd';
+import styled from 'styled-components';
 
 function AddExpenses({ history }) {
-  const [paidFor, setPaidFor] = useState([])
-  const [studentsInvolved, setStudentsInvolved] = useState(initaiState)
-  const [availableOptions, setAvailableOptions] = useState([])
-  const allUsers = JSON.parse(localStorage.getItem(ALL_USERS))
-  const [form] = Form.useForm()
-  const dispatch = useDispatch()
+  const [paidFor, setPaidFor] = useState([]);
+  const [studentsInvolved, setStudentsInvolved] = useState(initaiState);
+  const [availableOptions, setAvailableOptions] = useState([]);
+  const allUsers = JSON.parse(localStorage.getItem(ALL_USERS));
+  const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  console.log(
+    paidFor.map((student) => {
+      form.getFieldValue(student);
+    }),
+  );
 
   const handlePaidFor = (e) => {
-    let students = studentsInvolved
-    console.log(e)
+    let students = [...studentsInvolved];
+    // console.log(e)
     students.map((student) => {
       if (!e.includes(student.paidFor)) {
-        student.percentage = 0
+        student.percentage = 0;
       }
-    })
-    console.log(students)
-    setStudentsInvolved(students)
-  }
+    });
+    console.log('students', students);
+    setStudentsInvolved(students);
+  };
 
   const handlePaidForInput = (e) => {
-    let students = studentsInvolved
+    let students = [...studentsInvolved];
     students.map((student) => {
       if (student.paidFor === e.target.id) {
-        student.percentage = parseInt(e.target.value)
+        student.percentage = parseInt(e.target.value);
       }
-    })
-    setStudentsInvolved(students)
-  }
+      return student;
+    });
+    console.log('students', students);
+    setStudentsInvolved(students);
+  };
 
   const handleSubmit = async (formValues) => {
+    console.log('formValues', formValues);
     let values = {
       description: formValues.description,
       paidBy: formValues.paidBy,
       categories: formValues.categories,
       amount: formValues.amount,
       students: studentsInvolved,
-      date: {
-        year: formValues.date.$y,
-        month: formValues.date.$M,
-        day: formValues.date.$D,
-      },
-    }
+      date: new Date(formValues.date),
+    };
     try {
       dispatch({
         type: ADD_EXPENSES,
         payload: values,
-      })
+      });
 
-      history.push('/dashboard')
+      history.push('/dashboard');
     } catch (error) {
-      alert(error)
+      alert(error);
     }
-    console.log(values)
-    // console.log(formValues.date.$y)
-  }
+    // console.log(new Date(formValues.date).getDate())
+  };
 
+  console.log('befiore returne', studentsInvolved);
   return (
     <Wrapper>
-      <Form
-        form={form}
-        labelCol={{ span: 4 }}
-        wrapperCol={{ span: 13 }}
-        onFinish={handleSubmit}
-      >
+      <Form form={form} labelCol={{ span: 4 }} wrapperCol={{ span: 13 }} onFinish={handleSubmit}>
         <Form.Item
           rules={[
             {
@@ -80,13 +80,13 @@ function AddExpenses({ history }) {
               message: 'Please enter the description!',
             },
           ]}
-          name='description'
-          label='Description'
+          name="description"
+          label="Description"
         >
-          <Input placeholder='Enter Your Description.'></Input>
+          <Input placeholder="Enter Your Description."></Input>
         </Form.Item>
 
-        <Form.Item label='Pick the date' name='date'>
+        <Form.Item label="Pick the date" name="date">
           <DatePicker
             rules={[
               {
@@ -104,24 +104,24 @@ function AddExpenses({ history }) {
               message: 'Please select who paid!',
             },
           ]}
-          name='paidBy'
-          label='Paid By'
+          name="paidBy"
+          label="Paid By"
         >
-          <Select placeholder='Select who paid'>
+          <Select placeholder="Select who paid">
             {allUsers.map((user) => {
               return (
                 <Select.Option key={user.id} value={user.username}>
                   {user.username}
                 </Select.Option>
-              )
+              );
             })}
           </Select>
         </Form.Item>
 
         <Form.Item
-          name='select-multiple'
-          label='Paid For'
-          id='PaidFor'
+          name="select-multiple"
+          label="Paid For"
+          id="PaidFor"
           rules={[
             {
               required: true,
@@ -131,25 +131,26 @@ function AddExpenses({ history }) {
           ]}
         >
           <Select
-            mode='multiple'
+            mode="multiple"
             onChange={(e) => {
-              setPaidFor(e)
-              handlePaidFor(e)
+              setPaidFor(e);
+              handlePaidFor(e);
             }}
             required
-            placeholder='Please select the people involved'
+            placeholder="Please select the people involved"
           >
             {allUsers.map((user) => {
               return (
                 <Select.Option key={user.id} value={user.username}>
                   {user.username}
                 </Select.Option>
-              )
+              );
             })}
           </Select>
         </Form.Item>
 
         {paidFor.map((student) => {
+          // getFieldsValue
           return (
             <Form.Item
               rules={[
@@ -159,17 +160,17 @@ function AddExpenses({ history }) {
                   type: 'number',
                 },
               ]}
-              key={student.key}
+              key={student}
               name={student}
               id={student}
               label={student}
               onChange={(e) => {
-                handlePaidForInput(e)
+                handlePaidForInput(e);
               }}
             >
-              <InputNumber placeholder='Contribution'></InputNumber>
+              <InputNumber placeholder="Contribution"></InputNumber>
             </Form.Item>
-          )
+          );
         })}
 
         <Form.Item
@@ -179,16 +180,16 @@ function AddExpenses({ history }) {
               message: 'Please select one category!',
             },
           ]}
-          name='categories'
-          label='Categories'
+          name="categories"
+          label="Categories"
         >
-          <Select placeholder='Select your category'>
+          <Select placeholder="Select your category">
             {CATEGORIES.map((category) => {
               return (
                 <Select.Option key={category.id} value={category}>
                   {category}
                 </Select.Option>
-              )
+              );
             })}
           </Select>
         </Form.Item>
@@ -200,20 +201,20 @@ function AddExpenses({ history }) {
               type: 'number',
             },
           ]}
-          name='amount'
-          label='Amount'
+          name="amount"
+          label="Amount"
         >
-          <InputNumber placeholder='Enter Your anount.'></InputNumber>
+          <InputNumber placeholder="Enter Your anount."></InputNumber>
         </Form.Item>
 
         <Form.Item style={{ marginLeft: '300px' }}>
-          <Button type='primary' htmlType='submit'>
+          <Button type="primary" htmlType="submit">
             Submit
           </Button>
         </Form.Item>
       </Form>
     </Wrapper>
-  )
+  );
 }
 
 const Wrapper = styled.div`
@@ -222,6 +223,6 @@ const Wrapper = styled.div`
   max-width: 50rem;
   border-radius: 2rem;
   margin-left: 21rem;
-`
+`;
 
-export default AddExpenses
+export default AddExpenses;

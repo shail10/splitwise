@@ -1,34 +1,34 @@
-import React from 'react'
-import { useState } from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import React from 'react';
+import { useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { SET_INITIAL_TRANSACTION_STATE, ONLOGIN } from '../../utils/constant'
+import { SET_INITIAL_TRANSACTION_STATE, ONLOGIN } from '../../utils/constant';
 
-import { useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux';
 
 const Login = ({ history }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
-  const [user, setUser] = useState({ email: '', password: '' })
+  const [user, setUser] = useState({ email: '', password: '' });
 
   const handleOnChange = (e) => {
     if (e.target.id === 'email') {
-      setUser({ ...user, email: e.target.value })
+      setUser({ ...user, email: e.target.value });
     }
     if (e.target.id === 'password') {
-      setUser({ ...user, password: e.target.value })
+      setUser({ ...user, password: e.target.value });
     }
-  }
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
-      dispatch({ type: ONLOGIN, payload: user })
-      dispatch({ type: SET_INITIAL_TRANSACTION_STATE })
-      history.push('/dashboard')
+      dispatch({ type: ONLOGIN, payload: user });
+      dispatch({ type: SET_INITIAL_TRANSACTION_STATE });
+      history.push('/dashboard');
     } catch (error) {
       toast.error(`${error}`, {
         position: 'top-center',
@@ -39,9 +39,9 @@ const Login = ({ history }) => {
         draggable: true,
         progress: undefined,
         theme: 'light',
-      })
+      });
     }
-  }
+  };
 
   return (
     <Wrapper>
@@ -50,35 +50,33 @@ const Login = ({ history }) => {
         <form onSubmit={handleSubmit}>
           {/* For Email */}
           <input
-            label='email'
-            type='email'
-            id='email'
-            autoComplete='off'
+            label="email"
+            type="email"
+            id="email"
+            autoComplete="off"
             onChange={(e) => {
-              handleOnChange(e)
+              handleOnChange(e);
             }}
             value={user.email}
             required
-            placeholder='Email'
+            placeholder="Email"
           />
           {/* For Password */}
           <input
-            type='password'
-            id='password'
-            autoComplete='off'
+            type="password"
+            id="password"
+            autoComplete="off"
             onChange={(e) => {
-              handleOnChange(e)
+              handleOnChange(e);
             }}
             value={user.password}
             required
-            placeholder='Enter your password'
+            placeholder="Enter your password"
           />
 
-          <button disabled={!user.email || !user.password ? true : false}>
-            Login
-          </button>
+          <button disabled={!user.email || !user.password ? true : false}>Login</button>
           <ToastContainer
-            position='top-center'
+            position="top-center"
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -87,16 +85,16 @@ const Login = ({ history }) => {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme='light'
+            theme="light"
           />
           <p style={{ 'margin-top': '1.5rem', 'margin-left': '10rem' }}>
-            New here? <Link to='/register'>Register</Link> here.
+            New here? <Link to="/register">Register</Link> here.
           </p>
         </form>
       </div>
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.div`
   width: 600px;
@@ -152,6 +150,6 @@ const Wrapper = styled.div`
   button:hover {
     background: black;
   }
-`
+`;
 
-export default Login
+export default Login;

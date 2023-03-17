@@ -1,23 +1,17 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
+import React from 'react';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { ONREGISTER } from '../../utils/constant'
+import { ONREGISTER } from '../../utils/constant';
 
-import {
-  NAME,
-  USERNAME,
-  EMAIL,
-  PASSWORD,
-  CONFIRM_PASSWORD,
-} from '../../utils/formConstants'
+import { NAME, USERNAME, EMAIL, PASSWORD, CONFIRM_PASSWORD } from '../../utils/formConstants';
 
 const Register = ({ history }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState({
     name: '',
@@ -26,45 +20,45 @@ const Register = ({ history }) => {
     validConfirmPassword: false,
     username: '',
     email: '',
-  })
+  });
 
   useEffect(() => {
     setUser({
       ...user,
       validConfirmPassword: user.password === user.confirmPassword,
-    })
-  }, [user.password, user.confirmPassword])
+    });
+  }, [user.password, user.confirmPassword]);
 
   const handleOnChange = (e) => {
     if (e.target.id === NAME) {
-      setUser({ ...user, name: e.target.value })
+      setUser({ ...user, name: e.target.value });
     }
     if (e.target.id === PASSWORD) {
-      setUser({ ...user, password: e.target.value })
+      setUser({ ...user, password: e.target.value });
     }
     if (e.target.id === CONFIRM_PASSWORD) {
-      setUser({ ...user, confirmPassword: e.target.value })
+      setUser({ ...user, confirmPassword: e.target.value });
     }
     if (e.target.id === USERNAME) {
-      setUser({ ...user, username: e.target.value })
+      setUser({ ...user, username: e.target.value });
     }
     if (e.target.id === EMAIL) {
-      setUser({ ...user, email: e.target.value })
+      setUser({ ...user, email: e.target.value });
     }
-  }
+  };
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     const currentUser = {
       name: user.name,
       email: user.email,
       username: user.username,
       password: user.password,
-    }
+    };
     try {
-      dispatch({ type: ONREGISTER, payload: currentUser })
-      history.push('/login')
+      dispatch({ type: ONREGISTER, payload: currentUser });
+      history.push('/login');
     } catch (error) {
       toast.error(`${error}`, {
         position: 'top-center',
@@ -75,9 +69,9 @@ const Register = ({ history }) => {
         draggable: true,
         progress: undefined,
         theme: 'light',
-      })
+      });
     }
-  }
+  };
 
   return (
     <Wrapper>
@@ -86,76 +80,67 @@ const Register = ({ history }) => {
         <form onSubmit={handleSubmit}>
           {/* For Name */}
           <input
-            type='text'
+            type="text"
             id={NAME}
-            autoComplete='off'
+            autoComplete="off"
             onChange={(e) => {
-              handleOnChange(e)
+              handleOnChange(e);
             }}
             value={user.name}
             required
-            placeholder='Name'
+            placeholder="Name"
           />
           {/* For Username */}
           <input
-            type='text'
+            type="text"
             id={USERNAME}
-            autoComplete='off'
+            autoComplete="off"
             onChange={(e) => {
-              handleOnChange(e)
+              handleOnChange(e);
             }}
             value={user.username}
             required
-            placeholder='Username'
+            placeholder="Username"
           />
           {/* For Email */}
           <input
-            type='email'
+            type="email"
             id={EMAIL}
-            autoComplete='off'
+            autoComplete="off"
             onChange={(e) => {
-              handleOnChange(e)
+              handleOnChange(e);
             }}
             value={user.email}
             required
-            placeholder='Email'
+            placeholder="Email"
           />
           {/* For Password and Confirm Password */}
           <input
-            type='password'
+            type="password"
             id={PASSWORD}
-            autoComplete='off'
+            autoComplete="off"
             onChange={(e) => {
-              handleOnChange(e)
+              handleOnChange(e);
             }}
             value={user.password}
             required
-            placeholder='Password'
+            placeholder="Password"
           />
           <input
-            type='password'
+            type="password"
             id={CONFIRM_PASSWORD}
-            autoComplete='off'
+            autoComplete="off"
             onChange={(e) => {
-              handleOnChange(e)
+              handleOnChange(e);
             }}
             value={user.confirmPassword}
             required
-            placeholder='Enter password again'
+            placeholder="Enter password again"
           />
 
-          <button
-            disabled={
-              !user.validConfirmPassword ||
-              !user.name ||
-              !user.username ||
-              !user.email
-            }
-          >
-            Sign Up
-          </button>
+          <button disabled={!user.validConfirmPassword || !user.name || !user.username || !user.email}>Sign Up</button>
           <ToastContainer
-            position='top-center'
+            position="top-center"
             autoClose={5000}
             hideProgressBar={false}
             newestOnTop={false}
@@ -164,16 +149,16 @@ const Register = ({ history }) => {
             pauseOnFocusLoss
             draggable
             pauseOnHover
-            theme='light'
+            theme="light"
           />
           <p style={{ 'margin-top': '1.5rem', 'margin-left': '7.2rem' }}>
-            Already have an account? <Link to='/login'>Login</Link> here.
+            Already have an account? <Link to="/login">Login</Link> here.
           </p>
         </form>
       </div>
     </Wrapper>
-  )
-}
+  );
+};
 
 const Wrapper = styled.div`
   width: 600px;
@@ -228,6 +213,6 @@ const Wrapper = styled.div`
   button:hover {
     background: black;
   }
-`
+`;
 
-export default Register
+export default Register;

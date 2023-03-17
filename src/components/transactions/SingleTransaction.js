@@ -1,7 +1,8 @@
-import { Input, Divider, Button } from 'antd'
-import React from 'react'
-import { PEOPLE_INVOLVED } from '../../utils/formConstants'
+import { Input } from 'antd';
+import React from 'react';
 const SingleTransaction = (props) => {
+  const date = new Date(props.date);
+
   return (
     <>
       <td>
@@ -9,7 +10,7 @@ const SingleTransaction = (props) => {
           placeholder={props.description}
           value={props.description}
           onChange={(e) => {
-            console.log(e)
+            console.log(e);
           }}
         ></Input>
       </td>
@@ -26,28 +27,35 @@ const SingleTransaction = (props) => {
         {props.students.map((student) => {
           return (
             <div key={student.id}>
-              {/* <div>
-                {student.paidFor} - {student.percentage}%
-              </div> */}
               {student.percentage > 0 && (
                 <>
                   <div style={{ fontSize: '1rem' }}>
-                    {student.paidFor} - {student.percentage}% (
-                    {Math.abs((props.amount * student.percentage) / 100)})
+                    {student.paidFor} - {student.percentage}% ({Math.abs((props.amount * student.percentage) / 100)})
                   </div>
                 </>
               )}
             </div>
-          )
+          );
         })}
       </td>
       <td>
         <div>
-          {props.date.year}-{props.date.day}-{props.date.month}
+          {date.getFullYear()}-{date.getMonth()}-{date.getDate()}
         </div>
       </td>
+      <td id="abc">
+        <button
+          className="settle"
+          type="button"
+          onClick={(e) => {
+            console.log(e);
+          }}
+        >
+          Settle
+        </button>
+      </td>
     </>
-  )
-}
+  );
+};
 
-export default SingleTransaction
+export default SingleTransaction;

@@ -1,7 +1,7 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
-import image from '../Assets/Images/welcome.svg'
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
+import image from '../Assets/Images/welcome.svg';
 
 const Home = () => {
   return (
@@ -13,9 +13,9 @@ const Home = () => {
       }}
       src={image}
     ></img>
-  )
-}
+  );
+};
 
-const Wrapper = styled.section``
+const Wrapper = styled.section``;
 
-export default Home
+export default Home;
